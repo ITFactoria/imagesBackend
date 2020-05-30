@@ -43,7 +43,7 @@ postRoutes.get('/', verificarToken, async(req: Request, res: Response) => {
         .sort({ _id: -1 })
         .skip(skip)
         .limit(limit)
-        .populate('usuario', '-password')
+        .populate('user', '-password')
         .exec()
         .then(posts => {
             res.json({

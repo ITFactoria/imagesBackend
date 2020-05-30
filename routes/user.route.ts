@@ -20,6 +20,8 @@ userRoutes.post('/login', (req: Request, res: Response) => {
     User.findOne({ email: body.email }, (err, userDB) => {
         if (err) throw err;
 
+        console.log("USERRUTELOGIN: ", userDB)
+
         if (!userDB) {
             res.json({
                 ok: false,
@@ -35,6 +37,8 @@ userRoutes.post('/login', (req: Request, res: Response) => {
                 name: userDB.name,
                 email: userDB.email
             })
+
+            console.log("TOKEN GENERADO: ", tokenUser)
 
             res.json({
                 ok: true,
@@ -53,7 +57,7 @@ userRoutes.post('/login', (req: Request, res: Response) => {
 
 })
 
-
+//Create User
 userRoutes.post('/', (req, res) => {
 
     const user = {
@@ -109,10 +113,25 @@ userRoutes.put('/:idUser', verificarToken, (req: any, res: Response) => {
 
         })
     })
-    
+
+});
+
+//Get user by token
+userRoutes.get('/', verificarToken, (req: any, res: Response) => {
+
+    console.log("NODE: GETUSERBYTOKEN: ")
+    const user = req.user;
+    console.log("user: ", user)
+
+
+    res.json({
+        ok: true,
+        user: user
+
+    });
 });
 
 
 
 
-export default userRoutes;
+    export default userRoutes;

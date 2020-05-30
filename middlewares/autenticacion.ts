@@ -8,7 +8,8 @@ export const verificarToken = (req: any, res: Response, next: NextFunction) => {
 
     Token.verifyToken(userToken)
         .then((decoded: any) => {
-            console.log("decoded: ", decoded);
+            console.log("VERIFYTOKEN OK!!! usertoken: ", userToken);
+            console.log("VERIFYTOKEN OK!!! decoded: ", decoded);
             req.user = decoded.user;
             next();
         })
@@ -17,8 +18,5 @@ export const verificarToken = (req: any, res: Response, next: NextFunction) => {
                 ok: false,
                 message: "Invalid token"
             })
-
-        }
-
-        );
+        });
 }
