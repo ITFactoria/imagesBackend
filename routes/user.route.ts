@@ -22,13 +22,13 @@ userRoutes.post('/login', (req: Request, res: Response) => {
 
         console.log("USERRUTELOGIN: ", userDB)
 
-        if (!userDB) {
+        /*if (!userDB) {
             res.json({
                 ok: false,
                 message: 'User or password not valid'
             })
 
-        }
+        }*/
 
         if (userDB != null && userDB.compararPassword(body.password)) {
 

@@ -10,6 +10,7 @@ const postRoutes = Router();
 
 postRoutes.post('/', verificarToken, (req: any, res: Response) => {
     const body = req.body;
+    body.user = req.user._id;
 
     Post.create(body)
         .then(async postDB => {
