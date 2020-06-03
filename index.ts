@@ -32,6 +32,8 @@ server.app.use(cors ({ origin: true, credentials: true }));
 server.app.use('/api/user', userRoutes);
 server.app.use('/api/post', postRoutes);
 server.app.use('/api/user', userRoutes);
+server.app.use('/api/file', postRoutes);
+
 
 
 //DB Connection

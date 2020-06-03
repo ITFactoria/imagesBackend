@@ -1,17 +1,47 @@
 import { FileUpload } from "../interfaces/file-upload";
 import path from 'path';
 import fs from 'fs';
+import uniqId from 'uniqid';
 
 
 
 export default class FileSystem {
     constructor() { }
 
-    saveImgTemporal(file: FileUpload, idUser: string) { 
-        let path = this.createDirUser(idUser)
+    saveTemporalFile(file: FileUpload, idUser: string) {
+
+        return new Promise((resolve, reject) => {
+
+            //Set File Path
+            let filePath = this.setPathFile(idUser);
+
+            //Set File Name
+            let fileName = this.setUniqueFileName(file.name);
+            console.log("fileName: ", fileName);
+
+            //Save file
+            file.mv(`${filePath}/${fileName}`, (err: any) => {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                    
+                }
+                else {
+                    console.log("File crated OK");
+                    resolve();
+
+                }
+            })
+
+
+        })
+
+
+
+
     }
 
-    createDirUser(idUser: string) {
+    setPathFile(idUser: string) {
 
         let pathUser = path.resolve(__dirname, '../uploads', idUser);
         console.log("pathUser: ", pathUser);
@@ -26,7 +56,15 @@ export default class FileSystem {
 
         }
         return pathUser;
+    }
 
+    setUniqueFileName(fileName: string) {
+
+        let fileNameSplit = fileName.split('.');
+        let fileExtension = fileNameSplit[fileNameSplit.length - 1];
+        let uniqueId = uniqId();
+        let fileNameUnique = `${uniqueId}.${fileExtension}`;
+        return fileNameUnique;
 
     }
 }

@@ -61,9 +61,11 @@ postRoutes.get('/', verificarToken, async(req: Request, res: Response) => {
 });
 
 //Post images
-postRoutes.post('/upload/:idUser', verificarToken, (req: any, res: Response) => {
+postRoutes.post('/upload', verificarToken, async (req: any, res: Response) => {
 
-    let idUser = req.params.idUser;
+    //let idUser = req.params.idUser;
+    let idUser = req.user._id;
+    
     console.log("idUser: ", idUser)
 
     if(!req.files){
@@ -73,27 +75,24 @@ postRoutes.post('/upload/:idUser', verificarToken, (req: any, res: Response) => 
         })
     }
 
-    let file :FileUpload = req.files.image;
+    let file: FileUpload = req.files.image;
 
     if(!file){
         return res.status(400).json({
             ok: false,
-            message : "File not found - image"
+            message : "No se subio ningun archiovo de tipo image"
         })
     }
     
     if(!file.mimetype.includes('image')){
         return res.status(400).json({
             ok: false,
-            message : "File not image"
+            message : "Tha file to upload is not an image"
         })
     }
 
     let fileSystem = new FileSystem();
-    fileSystem.saveImgTemporal(file, idUser)
-
-
-
+    await fileSystem.saveTemporalFile(file, idUser)
 
     res.json({
         ok: true,
